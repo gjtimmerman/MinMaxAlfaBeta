@@ -79,14 +79,25 @@ class Hand
 public:
 	Hand()
 	{}
-	CardPlace cards[13];
+	CardPlace cards[NUMBER_OF_CARDS];
+};
+
+class Trick
+{
+public:
+	Trick() : lead(0)
+	{}
+	Card trick[NUMBER_OF_PLAYERS];
+	int lead;
+	int evaluate(Suit trump);
 };
 
 class PlayingTable
 {
 public:
-	PlayingTable(std::string deal)
+	PlayingTable(std::string deal) : trump(Suit::Spades), notrump(false), declarer(0), lead(0), trickCount(0)
 	{
+		srand((unsigned int)time(NULL));
 		if (deal.length() != DECKSIZE)
 			throw std::domain_error("A deck should contain exactly 52 cards");
 		for (int p = 0; p < NUMBER_OF_PLAYERS; p++)
@@ -98,6 +109,22 @@ public:
 			}
 	}
 	Hand players[NUMBER_OF_PLAYERS];
+	Suit trump;
+	bool notrump;
+	int declarer;
+	int lead;
+	int trickCount;
+	Trick tricks[NUMBER_OF_CARDS];
+	Trick playTrick();
+	Card playFirstCardinTrick();
+	Card playNextCardinTrick(int player, Suit suitLed);
+	void playAllTricks();
 private:
 
 };
+
+
+int randomCard(int numberOfCards)
+{
+	return rand() % numberOfCards;
+}
