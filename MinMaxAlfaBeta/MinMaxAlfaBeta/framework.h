@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-#define NUMBER_OF_CARDS 13
+#define NUMBER_OF_CARDS 3
 #define NUMBER_OF_PLAYERS 4
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
 
@@ -32,6 +32,14 @@ enum class CardValue
 	Ace
 };
 
+enum class Compass
+{
+	North,
+	East,
+	South,
+	West
+};
+
 class Card
 {
 public:
@@ -45,14 +53,10 @@ public:
 	CardValue value;
 };
 
-bool operator == (Card c1, Card c2)
-{
-	return c1.suit == c2.suit && c1.value == c2.value;
-}
-bool operator != (Card c1, Card c2)
-{
-	return c1.suit != c2.suit || c1.value != c2.value;
-}
+extern bool operator == (Card c1, Card c2);
+extern bool operator != (Card c1, Card c2);
+
+
 
 class CardPlace
 {
@@ -85,17 +89,22 @@ public:
 class Trick
 {
 public:
-	Trick() : lead(0)
+	Trick() : lead(0), winner(0)
 	{}
 	Card trick[NUMBER_OF_PLAYERS];
 	int lead;
-	int evaluate(Suit trump);
+	int winner;
+	int evaluate(Suit trump, bool notrump);
 };
 
 class PlayingTable
 {
 public:
-	PlayingTable(std::string deal) : trump(Suit::Spades), notrump(false), declarer(0), lead(0), trickCount(0)
+	PlayingTable() : trump(Suit::Spades), notrump(false), declarer(0), lead(0), trickCount(0), tricksWonByDeclaringSide(0)
+	{
+
+	}
+	PlayingTable(std::string deal) : trump(Suit::Spades), notrump(false), declarer(0), lead(0), trickCount(0),tricksWonByDeclaringSide(0)
 	{
 		srand((unsigned int)time(NULL));
 		if (deal.length() != DECKSIZE)
@@ -104,7 +113,7 @@ public:
 			for (int i = 0; i < NUMBER_OF_CARDS; i++)
 			{
 				int cardNumber = p * NUMBER_OF_CARDS + i;
-				int rawCardValue = isupper(deal[cardNumber]) ? deal[cardNumber] - 'A' : (islower(deal[cardNumber]) ? deal[cardNumber] - 'a' + (NUMBER_OF_CARDS*2) : throw std::domain_error("Illegal card in deck"));
+				int rawCardValue = isupper(deal[cardNumber]) ? deal[cardNumber] - 'A' : (islower(deal[cardNumber]) ? deal[cardNumber] - 'a' + 26 : throw std::domain_error("Illegal card in deck"));
 				players[p].cards[i] = Card((Suit)(rawCardValue / 13), (CardValue)(rawCardValue % 13));
 			}
 	}
@@ -112,6 +121,7 @@ public:
 	Suit trump;
 	bool notrump;
 	int declarer;
+	int tricksWonByDeclaringSide;
 	int lead;
 	int trickCount;
 	Trick tricks[NUMBER_OF_CARDS];
@@ -124,7 +134,7 @@ private:
 };
 
 
-int randomCard(int numberOfCards)
-{
-	return rand() % numberOfCards;
-}
+
+extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick trickSoFar);
+
+

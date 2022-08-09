@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
 
 // add headers that you want to pre-compile here
 #include "framework.h"
