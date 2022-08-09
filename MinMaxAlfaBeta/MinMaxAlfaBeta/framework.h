@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-#define NUMBER_OF_CARDS 3
+#define NUMBER_OF_CARDS 5
 #define NUMBER_OF_PLAYERS 4
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
 
@@ -52,6 +52,8 @@ public:
 	Suit suit;
 	CardValue value;
 };
+
+extern std::ostream& operator << (std::ostream& out, Card c);
 
 extern bool operator == (Card c1, Card c2);
 extern bool operator != (Card c1, Card c2);

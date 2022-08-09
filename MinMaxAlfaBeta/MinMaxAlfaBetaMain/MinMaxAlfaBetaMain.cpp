@@ -7,10 +7,10 @@
 
 int main()
 {
-	PlayingTable table("AbCNOBapcnoP");
+	PlayingTable table("AbCdENOBaQPDcqrnopeR");
 	table.notrump = true;
 	table.trump = Suit::Hearts;
-	table.declarer = (int)Compass::East;
+	table.declarer = (int)Compass::North;
 	Trick t;
 	PlayingTable bestMoves = playAllTricksMinMax(table, -1, t);
 	std::cout << bestMoves.tricksWonByDeclaringSide << std::endl;
@@ -20,7 +20,7 @@ int main()
 		std::cout << "Trick " << i << std::endl;
 		std::cout << "Lead " << bestMoves.tricks[i].lead << std::endl;
 		for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
-			std::cout << "Player " << j << " , Card: (" << (int)bestMoves.tricks[i].trick[j].suit << "," << (int)bestMoves.tricks[i].trick[j].value << ")\n";
+			std::cout << "Player " << j << " , Card: (" << bestMoves.tricks[i].trick[j] << ")\n";
 	}
 
 }

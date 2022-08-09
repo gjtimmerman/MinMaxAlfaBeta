@@ -13,6 +13,45 @@ bool operator != (Card c1, Card c2)
 	return c1.suit != c2.suit || c1.value != c2.value;
 }
 
+extern std::ostream& operator << (std::ostream& out, Card c)
+{
+	switch (c.suit)
+	{
+	case Suit::Spades:
+		out << "S";
+		break;
+	case Suit::Hearts:
+		out << "H";
+		break;
+	case Suit::Diamonds:
+		out << "D";
+		break;
+	case Suit::Clubs:
+		out << "C";
+		break;
+	}
+	switch (c.value)
+	{
+	case CardValue::Ace:
+		out << "A";
+		break;
+	case CardValue::King:
+		out << "K";
+		break;
+	case CardValue::Queen:
+		out << "Q";
+		break;
+	case CardValue::Jack:
+		out << "J";
+		break;
+	default:
+		out << (char)(((int)c.value) + 2 + '0');
+		break;
+	}
+	return out;
+}
+
+
 int randomCard(int numberOfCards)
 {
 	return rand() % numberOfCards;
@@ -132,17 +171,17 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 {
 	if (player == table.lead)	// Trick completed
 	{
-		std::cout << "playAllTricksMinMax, trick: " << table.trickCount << " completed.\n";
+//		std::cout << "playAllTricksMinMax, trick: " << table.trickCount << " completed.\n";
 		table.lead = playedSoFar.evaluate(table.trump,table.notrump);
 		if (playedSoFar.winner % 2 == table.declarer % 2)
 			table.tricksWonByDeclaringSide++;
 		table.tricks[table.trickCount++] = playedSoFar;
 		if (table.trickCount == NUMBER_OF_CARDS)		// Game completed
 		{
-			std::cout << "Game completed\n";
+//			std::cout << "Game completed\n";
 			return table;
 		}
-		std::cout << "Starting new trick. New lead: " << table.lead << std::endl;
+//		std::cout << "Starting new trick. New lead: " << table.lead << std::endl;
 		PlayingTable bestTableSoFar;
 		bool max = (table.lead % 2) == (table.declarer % 2);
 		int bestScoreSoFar = max ? -1 : NUMBER_OF_CARDS + 1;
@@ -177,7 +216,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 	}
 	else if (player >= 0)		// player is not lead and not start of game
 	{
-		std::cout << "playAllTricksMinMax, trick: " << table.trickCount << " running. Player: " << player << std::endl;
+//		std::cout << "playAllTricksMinMax, trick: " << table.trickCount << " running. Player: " << player << std::endl;
 		PlayingTable bestTableSoFar;
 		bool max = (player % 2) == (table.declarer % 2);
 		int bestScoreSoFar = max ? -1 : NUMBER_OF_CARDS + 1;
@@ -245,7 +284,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 	else		// start of game
 	{
 		table.lead = (table.declarer + 1) % NUMBER_OF_PLAYERS;
-		std::cout << "playAllTricksMinMax, start of game. trick: " << table.trickCount << " starting. Player: " << table.lead << std::endl;
+//		std::cout << "playAllTricksMinMax, start of game. trick: " << table.trickCount << " starting. Player: " << table.lead << std::endl;
 		PlayingTable bestTableSoFar;
 		bool max = (table.lead % 2) == (table.declarer % 2);
 		int bestScoreSoFar = max ? -1 : NUMBER_OF_CARDS + 1;
