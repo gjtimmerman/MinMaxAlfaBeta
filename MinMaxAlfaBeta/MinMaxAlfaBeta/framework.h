@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-#define NUMBER_OF_CARDS 5
+#define NUMBER_OF_CARDS 13
 #define NUMBER_OF_PLAYERS 4
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
 
@@ -137,6 +137,6 @@ private:
 
 
 
-extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick playedSoFar);
+extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick playedSoFar, int alfa, int beta);
 
 
