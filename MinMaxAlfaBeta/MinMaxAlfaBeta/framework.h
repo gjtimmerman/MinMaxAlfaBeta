@@ -7,7 +7,7 @@
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
 
 
-enum class Suit
+enum class Suit : char
 {
 	Spades,
 	Hearts,
@@ -15,7 +15,7 @@ enum class Suit
 	Clubs
 };
 
-enum class CardValue
+enum class CardValue : char
 {
 	Two,
 	Three,
@@ -32,7 +32,7 @@ enum class CardValue
 	Ace
 };
 
-enum class Compass
+enum class Compass : char
 {
 	North,
 	East,
@@ -72,7 +72,7 @@ public:
 private:
 };
 
-enum class Player
+enum class Player : char
 {
 	North,
 	East,
@@ -131,12 +131,12 @@ public:
 	Card playFirstCardinTrick();
 	Card playNextCardinTrick(int player, Suit suitLed);
 	void playAllTricks();
-	PlayingTable evaluateScore(bool max, int &bestScoreSoFar, PlayingTable bestTableSoFar);
+	PlayingTable evaluateScore(bool max, int &bestScoreSoFar, const PlayingTable &bestTableSoFar);
 private:
 };
 
 
 
-extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick trickSoFar);
+extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick playedSoFar);
 
 

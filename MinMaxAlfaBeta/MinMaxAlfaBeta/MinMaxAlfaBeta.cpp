@@ -119,7 +119,7 @@ Card PlayingTable::playFirstCardinTrick()
 	throw std::domain_error("This should never happen!");
 }
 
-PlayingTable PlayingTable::evaluateScore(bool max, int &bestScoreSoFar, PlayingTable bestTableSoFar)
+PlayingTable PlayingTable::evaluateScore(bool max, int &bestScoreSoFar,const PlayingTable &bestTableSoFar)
 {
 	if (max)
 	{
