@@ -116,8 +116,28 @@ Card PlayingTable::playFirstCardinTrick()
 				return players[lead].cards[i].card;
 			}
 	}
-	throw std::domain_error("This should never happen!"); //
+	throw std::domain_error("This should never happen!");
 }
+
+PlayingTable PlayingTable::evaluateScore(bool max, int &bestScoreSoFar, PlayingTable bestTableSoFar)
+{
+	if (max)
+	{
+		if (tricksWonByDeclaringSide > bestScoreSoFar)
+		{
+			bestScoreSoFar = tricksWonByDeclaringSide;
+			return *this;
+		}
+	}
+	else
+		if (tricksWonByDeclaringSide < bestScoreSoFar)
+		{
+			bestScoreSoFar = tricksWonByDeclaringSide;
+			return *this;
+		}
+	return bestTableSoFar;
+}
+
 Card PlayingTable::playNextCardinTrick(int player, Suit suitled)
 {
 	int numCardsLeft = NUMBER_OF_CARDS - trickCount;
@@ -151,7 +171,7 @@ Card PlayingTable::playNextCardinTrick(int player, Suit suitled)
 					return players[player].cards[i].card;
 				}
 	}
-	throw std::domain_error("This should never happen!"); //
+	throw std::domain_error("This should never happen!");
 }
 
 void PlayingTable::playAllTricks()
@@ -194,20 +214,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 				newTrick.trick[table.lead] = table.players[table.lead].cards[i].card;
 				table.players[table.lead].cards[i].played = true;
 				PlayingTable t = playAllTricksMinMax(table, (table.lead + 1) % NUMBER_OF_PLAYERS, newTrick);
-				if (max)
-				{
-					if (t.tricksWonByDeclaringSide > bestScoreSoFar)
-					{
-						bestScoreSoFar = t.tricksWonByDeclaringSide;
-						bestTableSoFar = t;
-					}
-				}
-				else
-					if (t.tricksWonByDeclaringSide < bestScoreSoFar)
-					{
-						bestScoreSoFar = t.tricksWonByDeclaringSide;
-						bestTableSoFar = t;
-					}
+				bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
 				table.players[table.lead].cards[i].played = false;
 
 			}
@@ -234,20 +241,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 					table.players[player].cards[i].played = true;
 
 					PlayingTable t = playAllTricksMinMax(table, (player + 1) % NUMBER_OF_PLAYERS, playedSoFar);
-					if (max)
-					{
-						if (t.tricksWonByDeclaringSide > bestScoreSoFar)
-						{
-							bestScoreSoFar = t.tricksWonByDeclaringSide;
-							bestTableSoFar = t;
-						}
-					}
-					else
-						if (t.tricksWonByDeclaringSide < bestScoreSoFar)
-						{
-							bestScoreSoFar = t.tricksWonByDeclaringSide;
-							bestTableSoFar = t;
-						}
+					bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
 					table.players[player].cards[i].played = false;
 
 				}
@@ -261,20 +255,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 					playedSoFar.trick[player] = table.players[player].cards[i].card;
 					table.players[player].cards[i].played = true;
 					PlayingTable t = playAllTricksMinMax(table, (player + 1) % NUMBER_OF_PLAYERS, playedSoFar);
-					if (max)
-					{
-						if (t.tricksWonByDeclaringSide > bestScoreSoFar)
-						{
-							bestScoreSoFar = t.tricksWonByDeclaringSide;
-							bestTableSoFar = t;
-						}
-					}
-					else
-						if (t.tricksWonByDeclaringSide < bestScoreSoFar)
-						{
-							bestScoreSoFar = t.tricksWonByDeclaringSide;
-							bestTableSoFar = t;
-						}
+					bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
 					table.players[player].cards[i].played = false;
 
 				}
@@ -299,21 +280,8 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 				newTrick.trick[table.lead] = table.players[table.lead].cards[i].card;
 				table.players[table.lead].cards[i].played = true;
 				PlayingTable t = playAllTricksMinMax(table, (table.lead + 1) % NUMBER_OF_PLAYERS, newTrick);
+				bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
 
-				if (max)
-				{
-					if (t.tricksWonByDeclaringSide > bestScoreSoFar)
-					{
-						bestScoreSoFar = t.tricksWonByDeclaringSide;
-						bestTableSoFar = t;
-					}
-				}
-				else
-					if (t.tricksWonByDeclaringSide < bestScoreSoFar)
-					{
-						bestScoreSoFar = t.tricksWonByDeclaringSide;
-						bestTableSoFar = t;
-					}
 				table.players[table.lead].cards[i].played = false;
 
 			}

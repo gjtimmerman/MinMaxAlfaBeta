@@ -131,8 +131,8 @@ public:
 	Card playFirstCardinTrick();
 	Card playNextCardinTrick(int player, Suit suitLed);
 	void playAllTricks();
+	PlayingTable evaluateScore(bool max, int &bestScoreSoFar, PlayingTable bestTableSoFar);
 private:
-
 };
 
 
