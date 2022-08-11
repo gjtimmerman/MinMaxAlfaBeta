@@ -6,9 +6,16 @@
 
 #include "../MinMaxAlfaBeta/framework.h"
 
+extern PlayingTable tables[NUMBER_OF_CARDS];
+
 int main()
 {
-	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvVJXZz");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvVJXZz");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeR");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMn");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrf");
+//	PlayingTable table("AbCdEsTiNOBaQFShujKlyPDUwkmY");
+	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvV");
 	table.notrump = false;
 	table.trump = Suit::Clubs;
 	table.declarer = (int)Compass::North;
@@ -24,5 +31,18 @@ int main()
 		for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
 			std::cout << "Player " << j << " , Card: (" << bestMoves.tricks[i].trick[j] << ")\n";
 	}
+	//std::cout << "-------------------------" << std::endl;
+	//for (int s = 0; s < NUMBER_OF_CARDS; s++)
+	//{
+	//	for (int i = 0; i < NUMBER_OF_CARDS; i++)
+	//	{
+	//		std::cout << "Trick " << i << std::endl;
+	//		std::cout << "Lead " << tables[s].tricks[i].lead << std::endl;
+	//		for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
+	//			std::cout << "Player " << j << " , Card: (" << tables[s].tricks[i].trick[j] << ")\n";
+	//	}
+	//	std::cout << "-------------------------" << std::endl;
+	//}
+
 	std::cout << "ClockTicks: " << difftime(time(NULL),starttime) << std::endl;
 }

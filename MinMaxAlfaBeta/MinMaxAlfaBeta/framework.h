@@ -2,9 +2,11 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-#define NUMBER_OF_CARDS 13
+#define NUMBER_OF_CARDS 12
 #define NUMBER_OF_PLAYERS 4
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
+
+#define ALFABETA
 
 
 enum class Suit : char
@@ -63,11 +65,10 @@ extern bool operator != (Card c1, Card c2);
 class CardPlace
 {
 public:
-	CardPlace() : card(Card()), played(false)
+	CardPlace() :  played(false)
 	{}
-	CardPlace(Card c) : card(c), played(false)
+	CardPlace(Card c) : played(false)
 	{}
-	Card card;
 	bool played;
 private:
 };
@@ -79,6 +80,8 @@ enum class Player : char
 	South,
 	West
 };
+
+extern Card cardDeal[NUMBER_OF_PLAYERS][NUMBER_OF_CARDS];
 
 class Hand
 {
@@ -116,9 +119,10 @@ public:
 			{
 				int cardNumber = p * NUMBER_OF_CARDS + i;
 				int rawCardValue = isupper(deal[cardNumber]) ? deal[cardNumber] - 'A' : (islower(deal[cardNumber]) ? deal[cardNumber] - 'a' + 26 : throw std::domain_error("Illegal card in deck"));
-				players[p].cards[i] = Card((Suit)(rawCardValue / 13), (CardValue)(rawCardValue % 13));
+				cardDeal[p][i] = Card((Suit)(rawCardValue / 13), (CardValue)(rawCardValue % 13));
 			}
 	}
+	char tableNumber;
 	Hand players[NUMBER_OF_PLAYERS];
 	Suit trump;
 	bool notrump;
@@ -137,6 +141,6 @@ private:
 
 
 
-extern PlayingTable playAllTricksMinMax(PlayingTable table,int player, Trick playedSoFar, int alfa, int beta);
+extern PlayingTable playAllTricksMinMax(PlayingTable table, int player, Trick playedSoFar, int alfa, int beta);
 
 

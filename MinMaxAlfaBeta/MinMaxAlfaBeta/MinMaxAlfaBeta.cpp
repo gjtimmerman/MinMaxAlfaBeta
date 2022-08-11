@@ -4,6 +4,8 @@
 #include "pch.h"
 #include "framework.h"
 
+Card cardDeal[NUMBER_OF_PLAYERS][NUMBER_OF_CARDS] = {};
+
 bool operator == (Card c1, Card c2)
 {
 	return c1.suit == c2.suit && c1.value == c2.value;
@@ -90,37 +92,37 @@ int Trick::evaluate(Suit trump, bool notrump)
 	return winner;
 }
 
-Trick PlayingTable::playTrick()
-{
-	Card cardLed = playFirstCardinTrick();
-	Trick trick;
-	trick.lead = lead;
-	trick.trick[lead] = cardLed;
-	for (int i = 1; i < NUMBER_OF_PLAYERS; i++)
-	{
-		int player = (lead + i) % 4;
-		Card cardPlayed = playNextCardinTrick(player, cardLed.suit);
-		trick.trick[player] = cardPlayed;
-	}
-	return trick;
-}
+//Trick PlayingTable::playTrick()
+//{
+//	Card cardLed = playFirstCardinTrick();
+//	Trick trick;
+//	trick.lead = lead;
+//	trick.trick[lead] = cardLed;
+//	for (int i = 1; i < NUMBER_OF_PLAYERS; i++)
+//	{
+//		int player = (lead + i) % 4;
+//		Card cardPlayed = playNextCardinTrick(player, cardLed.suit);
+//		trick.trick[player] = cardPlayed;
+//	}
+//	return trick;
+//}
 
-Card PlayingTable::playFirstCardinTrick()
-{
-	int numCardsLeft = NUMBER_OF_CARDS - trickCount;
-	int cardToPlay = randomCard(numCardsLeft);
-	int cardSelector = 0;
-	for (int i = 0; i < NUMBER_OF_CARDS; i++)
-	{
-		if (!players[lead].cards[i].played)
-			if (cardSelector++ == cardToPlay)
-			{
-				players[lead].cards[i].played = true;
-				return players[lead].cards[i].card;
-			}
-	}
-	throw std::domain_error("This should never happen!");
-}
+//Card PlayingTable::playFirstCardinTrick()
+//{
+//	int numCardsLeft = NUMBER_OF_CARDS - trickCount;
+//	int cardToPlay = randomCard(numCardsLeft);
+//	int cardSelector = 0;
+//	for (int i = 0; i < NUMBER_OF_CARDS; i++)
+//	{
+//		if (!players[lead].cards[i].played)
+//			if (cardSelector++ == cardToPlay)
+//			{
+//				players[lead].cards[i].played = true;
+//				return players[lead].cards[i].card;
+//			}
+//	}
+//	throw std::domain_error("This should never happen!");
+//}
 
 PlayingTable PlayingTable::evaluateScore(bool max, int &bestScoreSoFar,const PlayingTable &bestTableSoFar)
 {
@@ -141,54 +143,59 @@ PlayingTable PlayingTable::evaluateScore(bool max, int &bestScoreSoFar,const Pla
 	return bestTableSoFar;
 }
 
-Card PlayingTable::playNextCardinTrick(int player, Suit suitled)
-{
-	int numCardsLeft = NUMBER_OF_CARDS - trickCount;
-	int numCardsLeftinSuitLed = 0;
-	for (int i = 0; i < NUMBER_OF_CARDS; i++)
-	{
-		if (!players[player].cards[i].played && players[player].cards[i].card.suit == suitled)
-			numCardsLeftinSuitLed++;
-	}
-	if (numCardsLeftinSuitLed > 0)
-	{
-		int cardToPlay = randomCard(numCardsLeftinSuitLed);
-		int cardSelector = 0;
-		for (int i = 0; i < NUMBER_OF_CARDS; i++)
-			if (!players[player].cards[i].played && players[player].cards[i].card.suit == suitled)
-				if (cardSelector++ == cardToPlay)
-				{
-					players[player].cards[i].played = true;
-					return players[player].cards[i].card;
-				}
-	}
-	else
-	{
-		int cardToPlay = randomCard(numCardsLeft);
-		int cardSelector = 0;
-		for (int i = 0; i < NUMBER_OF_CARDS; i++)
-			if (!players[player].cards[i].played)
-				if (cardSelector++ == cardToPlay)
-				{
-					players[player].cards[i].played = true;
-					return players[player].cards[i].card;
-				}
-	}
-	throw std::domain_error("This should never happen!");
-}
+//Card PlayingTable::playNextCardinTrick(int player, Suit suitled)
+//{
+//	int numCardsLeft = NUMBER_OF_CARDS - trickCount;
+//	int numCardsLeftinSuitLed = 0;
+//	for (int i = 0; i < NUMBER_OF_CARDS; i++)
+//	{
+//		if (!players[player].cards[i].played && players[player].cards[i].card.suit == suitled)
+//			numCardsLeftinSuitLed++;
+//	}
+//	if (numCardsLeftinSuitLed > 0)
+//	{
+//		int cardToPlay = randomCard(numCardsLeftinSuitLed);
+//		int cardSelector = 0;
+//		for (int i = 0; i < NUMBER_OF_CARDS; i++)
+//			if (!players[player].cards[i].played && players[player].cards[i].card.suit == suitled)
+//				if (cardSelector++ == cardToPlay)
+//				{
+//					players[player].cards[i].played = true;
+//					return players[player].cards[i].card;
+//				}
+//	}
+//	else
+//	{
+//		int cardToPlay = randomCard(numCardsLeft);
+//		int cardSelector = 0;
+//		for (int i = 0; i < NUMBER_OF_CARDS; i++)
+//			if (!players[player].cards[i].played)
+//				if (cardSelector++ == cardToPlay)
+//				{
+//					players[player].cards[i].played = true;
+//					return players[player].cards[i].card;
+//				}
+//	}
+//	throw std::domain_error("This should never happen!");
+//}
 
-void PlayingTable::playAllTricks()
-{
-	lead = (declarer + 1) % 4;
+//void PlayingTable::playAllTricks()
+//{
+//	lead = (declarer + 1) % 4;
+//
+//	for (trickCount = 0; trickCount < NUMBER_OF_CARDS; trickCount++)
+//	{
+//		tricks[trickCount] = playTrick();
+//		lead = tricks[trickCount].evaluate(trump, notrump);
+//		if (tricks[trickCount].winner % 2 == declarer % 2)
+//			tricksWonByDeclaringSide++;
+//	}
+//}
 
-	for (trickCount = 0; trickCount < NUMBER_OF_CARDS; trickCount++)
-	{
-		tricks[trickCount] = playTrick();
-		lead = tricks[trickCount].evaluate(trump, notrump);
-		if (tricks[trickCount].winner % 2 == declarer % 2)
-			tricksWonByDeclaringSide++;
-	}
-}
+int countAlfaBeta = 0;
+
+PlayingTable tables[NUMBER_OF_CARDS] = {};
+std::thread threads[NUMBER_OF_CARDS] = {};
 
 PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar, int alfa, int beta)
 {
@@ -211,7 +218,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 			newTrick.lead = table.lead;
 			if (!table.players[table.lead].cards[i].played)
 			{
-				newTrick.trick[table.lead] = table.players[table.lead].cards[i].card;
+				newTrick.trick[table.lead] = cardDeal[table.lead][i];
 				table.players[table.lead].cards[i].played = true;
 				PlayingTable t = playAllTricksMinMax(table, (table.lead + 1) % NUMBER_OF_PLAYERS, newTrick, alfa, beta);
 						
@@ -227,8 +234,12 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 					if (bestScoreSoFar < beta)
 						beta = bestScoreSoFar;
 				}
+#ifdef ALFABETA
 				if (alfa >= beta)
+				{
 					return bestTableSoFar;
+				}
+#endif
 			}
 		}
 		return bestTableSoFar;
@@ -241,14 +252,17 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 		int firstCardinSuitLed = -1;
 		Suit suitLed = playedSoFar.trick[playedSoFar.lead].suit;
 		for (int i = 0; i < NUMBER_OF_CARDS; i++)
-			if (!table.players[player].cards[i].played && table.players[player].cards[i].card.suit == suitLed)
+			if (!table.players[player].cards[i].played && cardDeal[player][i].suit == suitLed)
+			{
 				firstCardinSuitLed = i;
+				break;
+			}
 		if (firstCardinSuitLed >= 0)		// player has card in suitLed, so must follow the leader
 		{
 			for (int i = firstCardinSuitLed; i < NUMBER_OF_CARDS; i++)
-				if (!table.players[player].cards[i].played && table.players[player].cards[i].card.suit == suitLed)
+				if (!table.players[player].cards[i].played && cardDeal[player][i].suit == suitLed)
 				{
-					playedSoFar.trick[player] = table.players[player].cards[i].card;
+					playedSoFar.trick[player] = cardDeal[player][i];
 					table.players[player].cards[i].played = true;
 
 					PlayingTable t = playAllTricksMinMax(table, (player + 1) % NUMBER_OF_PLAYERS, playedSoFar, alfa, beta);
@@ -264,10 +278,23 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 						if (bestScoreSoFar < beta)
 							beta = bestScoreSoFar;
 					}
+#ifdef ALFABETA
 					if (alfa >= beta)
+					{
+						if (table.trickCount == 0 && player == (table.lead + 1) % NUMBER_OF_PLAYERS)
+						{
+							std::cout << "Setting endresult of thread: " << (int)table.tableNumber << std::endl;
+							tables[table.tableNumber] = bestTableSoFar;
+						}
 						return bestTableSoFar;
-
+					}
+#endif
 				}
+			if (table.trickCount == 0 && player == (table.lead + 1) % NUMBER_OF_PLAYERS)
+			{
+				std::cout << "Setting endresult of thread: " << (int)table.tableNumber << std::endl;
+				tables[table.tableNumber] = bestTableSoFar;
+			}
 			return bestTableSoFar;
 		}
 		else					// player has no card in suitLed, may play any card
@@ -275,7 +302,7 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 			for (int i = 0; i < NUMBER_OF_CARDS; i++)
 				if (!table.players[player].cards[i].played)
 				{
-					playedSoFar.trick[player] = table.players[player].cards[i].card;
+					playedSoFar.trick[player] = cardDeal[player][i];
 					table.players[player].cards[i].played = true;
 					PlayingTable t = playAllTricksMinMax(table, (player + 1) % NUMBER_OF_PLAYERS, playedSoFar, alfa, beta);
 					bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
@@ -290,10 +317,24 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 						if (bestScoreSoFar < beta)
 							beta = bestScoreSoFar;
 					}
+#ifdef ALFABETA
 					if (alfa >= beta)
+					{
+						if (table.trickCount == 0 && player == (table.lead + 1) % NUMBER_OF_PLAYERS)
+						{
+							std::cout << "Setting endresult of thread: " << (int)table.tableNumber << std::endl;
+							tables[table.tableNumber] = bestTableSoFar;
+						}
 						return bestTableSoFar;
-
+					}
+#endif
 				}
+			if (table.trickCount == 0 && player == (table.lead + 1) % NUMBER_OF_PLAYERS)
+			{
+				std::cout << "Setting endresult of thread: " << (int)table.tableNumber << std::endl;
+				tables[table.tableNumber] = bestTableSoFar;
+			}
+
 			return bestTableSoFar;
 		}
 	}
@@ -306,34 +347,42 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 
 		for (int i = 0; i < NUMBER_OF_CARDS; i++)
 		{
+			table.tableNumber = i;
 			Trick newTrick;
 			newTrick.lead = table.lead;
 
 			if (!table.players[table.lead].cards[i].played)
 			{
-				newTrick.trick[table.lead] = table.players[table.lead].cards[i].card;
+				newTrick.trick[table.lead] = cardDeal[table.lead][i];
 				table.players[table.lead].cards[i].played = true;
-				PlayingTable t = playAllTricksMinMax(table, (table.lead + 1) % NUMBER_OF_PLAYERS, newTrick, alfa, beta);
-				bestTableSoFar = t.evaluateScore(max, bestScoreSoFar, bestTableSoFar);
-
+				threads[i] = std::thread(playAllTricksMinMax, table, (table.lead + 1) % NUMBER_OF_PLAYERS, newTrick, alfa, beta);
 				table.players[table.lead].cards[i].played = false;
-				if (max)
-				{
-					if (bestScoreSoFar > alfa)
-						alfa = bestScoreSoFar;
-				}
-				else
-				{
-					if (bestScoreSoFar < beta)
-						beta = bestScoreSoFar;
-				}
-				if (alfa >= beta)
-					return bestTableSoFar;
-
 			}
 
 		}
-		return bestTableSoFar;
+		for (int i = 0; i < NUMBER_OF_CARDS; i++)
+			threads[i].join();
+
+		int maxIndex = 0;
+		std::cout << tables[0].tricksWonByDeclaringSide << std::endl;
+		std::cout << tables[0].tricks[0].trick[tables[0].tricks[0].lead] << std::endl;
+
+		for (int i = 1; i < NUMBER_OF_CARDS; i++)
+		{
+			if (max)
+			{
+				if (tables[i].tricksWonByDeclaringSide > tables[maxIndex].tricksWonByDeclaringSide)
+					maxIndex = i;
+			}
+			else
+				if (tables[i].tricksWonByDeclaringSide < tables[maxIndex].tricksWonByDeclaringSide)
+					maxIndex = i;
+			std::cout << tables[i].tricksWonByDeclaringSide << std::endl;
+			std::cout << tables[i].tricks[0].trick[tables[i].tricks[0].lead] << std::endl;
+		}
+
+
+		return tables[maxIndex];
 
 		
 	}
