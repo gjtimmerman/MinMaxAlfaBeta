@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-#define NUMBER_OF_CARDS 9
+#define NUMBER_OF_CARDS 10
 #define NUMBER_OF_PLAYERS 4
 #define DECKSIZE (NUMBER_OF_PLAYERS * NUMBER_OF_CARDS)
 

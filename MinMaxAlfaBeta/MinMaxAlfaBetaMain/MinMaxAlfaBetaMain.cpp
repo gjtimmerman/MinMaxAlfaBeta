@@ -13,9 +13,9 @@ int main()
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvVJXZz");
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvV");
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeR");
-//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMn");
-	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHx");
-	//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrf");
+	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMn");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHx");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrf");
 //	PlayingTable table("AbCdEsTiNOBaQFShujKlyPDUwkmY");
 //	PlayingTable table("AbCdEsTiNOBaQFShujKl");
 
