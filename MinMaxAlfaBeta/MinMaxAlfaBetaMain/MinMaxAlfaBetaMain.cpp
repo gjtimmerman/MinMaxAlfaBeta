@@ -11,13 +11,16 @@ extern PlayingTable tables[NUMBER_OF_CARDS];
 int main()
 {
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvVJXZz");
+//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvV");
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeR");
 //	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMn");
-//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrf");
+	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHx");
+	//	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrf");
 //	PlayingTable table("AbCdEsTiNOBaQFShujKlyPDUwkmY");
-	PlayingTable table("AbCdEsTiUwkmYNOBaQFShujKlyPDcqrfGIHxWLMnopeRtgvV");
+//	PlayingTable table("AbCdEsTiNOBaQFShujKl");
+
 	table.notrump = false;
-	table.trump = Suit::Clubs;
+	table.trump = Suit::Hearts;
 	table.declarer = (int)Compass::North;
 	Trick t;
 	time_t starttime = time(NULL);
