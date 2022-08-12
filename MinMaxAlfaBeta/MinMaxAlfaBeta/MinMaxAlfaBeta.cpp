@@ -242,7 +242,10 @@ PlayingTable playAllTricksMinMax(PlayingTable table,int player,Trick playedSoFar
 		Suit suitLed = playedSoFar.trick[playedSoFar.lead].suit;
 		for (int i = 0; i < NUMBER_OF_CARDS; i++)
 			if (!table.players[player].cards[i].played && table.players[player].cards[i].card.suit == suitLed)
+			{
 				firstCardinSuitLed = i;
+				break;
+			}
 		if (firstCardinSuitLed >= 0)		// player has card in suitLed, so must follow the leader
 		{
 			for (int i = firstCardinSuitLed; i < NUMBER_OF_CARDS; i++)
